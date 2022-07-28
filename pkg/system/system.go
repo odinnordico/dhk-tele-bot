@@ -13,7 +13,7 @@ func Must[T any](t T, err error) T {
 	return t
 }
 
-func GetenvOrDefault(k, d string) string {
+func GetEnvOrDefault(k, d string) string {
 	if v, ok := os.LookupEnv(k); ok {
 		return v
 	}

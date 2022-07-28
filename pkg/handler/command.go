@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"fmt"
+	"math/rand"
 	"net/url"
+	"time"
 
 	"github.com/odinnordico/dhk-the-bot/pkg/phone"
 	"go.uber.org/zap"
@@ -61,6 +64,27 @@ func onWACommand(l *zap.SugaredLogger) HandableCommand {
 	}
 }
 
+func onRandomCommand(l *zap.SugaredLogger) HandableCommand {
+	return &Command{
+		command: "random",
+		handler: func(c tele.Context) error {
+			l.Info("random command received")
+			items := c.Args()
+			if len(items) == 0 {
+				l.Errorw("no items provided for random command", "items", items)
+				return nil
+			}
+			l.Debugw("random command received", "items", items)
+			rand.Seed(time.Now().UnixNano())
+			min := 0
+			max := len(items) - 1
+			randomIndex := rand.Intn(max-min+1) + min
+			l.Debugw("random index", "index", randomIndex)
+			return c.Send(fmt.Sprintf("Selected item: %s", items[randomIndex]))
+		},
+	}
+}
+
 func GetCommands(l *zap.SugaredLogger) []HandableCommand {
-	return []HandableCommand{onWACommand(l)}
+	return []HandableCommand{onWACommand(l), onRandomCommand(l)}
 }

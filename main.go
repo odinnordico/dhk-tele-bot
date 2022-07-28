@@ -18,11 +18,11 @@ const (
 )
 
 func main() {
-	p := s.GetenvOrDefault("PRODUCTION", "1")
+	p := s.GetEnvOrDefault("PRODUCTION", "1")
 	pb := s.Must(strconv.ParseBool(p))
 	log := configLogger(pb)
 
-	t := s.GetenvOrDefault("TELEGRAM_TOKEN", "")
+	t := s.GetEnvOrDefault("TELEGRAM_TOKEN", "")
 	if t == "" {
 		s.Must(t, e.TelegramTokenNotFound{})
 	}
@@ -33,9 +33,9 @@ func main() {
 		poller = &tele.LongPoller{Timeout: pollerTimeout * time.Second}
 	} else {
 		poller = &tele.Webhook{
-			Listen: ":" + s.GetenvOrDefault("PORT", "80"),
+			Listen: ":" + s.GetEnvOrDefault("PORT", "80"),
 			Endpoint: &tele.WebhookEndpoint{
-				PublicURL: s.GetenvOrDefault("WEBHOOK_URL", "localhost"),
+				PublicURL: s.GetEnvOrDefault("WEBHOOK_URL", "localhost"),
 			},
 		}
 	}

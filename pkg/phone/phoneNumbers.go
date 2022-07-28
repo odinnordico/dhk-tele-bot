@@ -12,7 +12,7 @@ func ValidatePhone(n string) (string, bool) {
 	number = strings.Replace(number, "_", "", -1)
 	number = strings.Replace(number, " /", "", -1)
 	if !strings.HasPrefix(n, "+") {
-		cc := s.GetenvOrDefault("COUNTRY_CODE", "57")
+		cc := s.GetEnvOrDefault("COUNTRY_CODE", "57")
 		if !strings.HasPrefix(cc, "+") {
 			cc = "+" + cc
 		}
